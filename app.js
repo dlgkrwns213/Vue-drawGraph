@@ -10,8 +10,8 @@ const app = Vue.createApp({
   },
   methods: {
     handleClick(event) {
-      console.log(1);
-      console.log(event.clientX, event.clientY);
+      if (this.selectedNode !== null)
+        return;
       this.addNode(event.clientX, event.clientY); // 클릭한 위치에 노드 추가
     },
     addNode(x, y) {
@@ -51,15 +51,6 @@ const app = Vue.createApp({
         };
       }
     },
-    // 우클릭 시 선 그리기 취소
-    handleMouseDown(event) {
-      if (event.button === 2) { // 우클릭 (button 2)
-        event.preventDefault();  // 기본 우클릭 메뉴 방지
-        this.selectedNode = null; // 선 그리기 취소
-        this.currentLine = null;
-        window.removeEventListener("mousemove", this.drawLine); // 마우스 이동 이벤트 리스너 제거
-      }
-    }
   },
   mounted() {
     window.addEventListener("click", this.handleClick);
