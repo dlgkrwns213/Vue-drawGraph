@@ -43,6 +43,7 @@
         height="100%"
         style="position: absolute; top: 0; left: 0"
         @click="handleClick"
+        @contextmenu.prevent="handleMouseDown($event)"
       >
         <line
           v-for="(line, index) in lines"
@@ -72,7 +73,7 @@
         class="node"
         :style="{ left: node.x + 'px', top: node.y + 'px' }"
         @click.stop="connectNode(index)"
-        @mousedown.stop="handleMouseDown($event)"
+        @contextmenu.prevent="handleMouseDown($event)"
       >
         {{ index + 1 }}
       </div>
