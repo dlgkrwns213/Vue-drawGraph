@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Graph Editor</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      #app {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+        background: rgb(44, 44, 44);
+      }
+      .node {
+        width: 50px;
+        height: 50px;
+        background: white;
+        border: 2px solid black;
+        border-radius: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        font-weight: bold;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <svg
+        width="100%"
+        height="100%"
+        style="position: absolute; top: 0; left: 0"
+        @click="handleClick"
+      >
+        <line
+          v-for="(line, index) in lines"
+          :key="index"
+          :x1="line.x1"
+          :y1="line.y1"
+          :x2="line.x2"
+          :y2="line.y2"
+          stroke="white"
+          stroke-width="2"
+        />
+        <!-- 마우스와 선택된 노드를 연결하는 선 -->
+        <line
+          v-if="currentLine"
+          :x1="currentLine.x1"
+          :y1="currentLine.y1"
+          :x2="currentLine.x2"
+          :y2="currentLine.y2"
+          stroke="white"
+          stroke-width="2"
+          stroke-dasharray="5,5"
+        />
+      </svg>
+      <div
+        v-for="(node, index) in nodes"
+        :key="index"
+        class="node"
+        :style="{ left: node.x + 'px', top: node.y + 'px' }"
+        @click.stop="connectNode(index)"
+        @mousedown.stop="handleMouseDown($event)"
+      >
+        {{ index + 1 }}
+      </div>
+    </div>
+
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            nodes: [], // 노드 목록
+            lines: [], // 이미 그려진 선 목록
+            selectedNode: null, // 선택된 노드
+            currentLine: null, // 현재 마우스와 연결될 선
+            graphConnections: [], // 연결된 그래프 정보 저장
+          };
+        },
+        methods: {
+          handleClick(event) {
+            if (this.selectedNode !== null) return;
+
+            const x = event.clientX;
+            const y = event.clientY;
+
+            for (alreadyNode of this.nodes) {
+              let ax = alreadyNode.x;
+              let ay = alreadyNode.y;
+
+              if (Math.sqrt((x - ax) * (x - ax) + (y - ay) * (y - ay)) <= 80) {
+                alert('너무 가까움');
+                return;
+              }
+            }
+
+            this.addNode(x, y); // 클릭한 위치에 노드 추가
+          },
+          addNode(x, y) {
+            this.nodes.push({ x, y }); // 새로운 노드 추가
+          },
+          connectNode(index) {
+            if (this.selectedNode === null) {
+              this.selectedNode = index; // 첫 번째 노드 선택
+              // 마우스 이동 시 선을 그리도록 이벤트 리스너 추가
+              window.addEventListener('mousemove', this.drawLine);
+            } else {
+              if (this.selectedNode !== index) {
+                // 두 번째 노드 클릭 시 선 추가
+                this.lines.push({
+                  x1: this.nodes[this.selectedNode].x,
+                  y1: this.nodes[this.selectedNode].y,
+                  x2: this.nodes[index].x,
+                  y2: this.nodes[index].y,
+                });
+                this.graphConnections.push([this.selectedNode + 1, index + 1]); // 연결 저장
+                console.log('Graph Connections:', this.graphConnections);
+              }
+              this.selectedNode = null;
+              // 마우스 이동 이벤트 리스너 제거
+              window.removeEventListener('mousemove', this.drawLine);
+              this.currentLine = null; // 현재 선 초기화
+            }
+          },
+          drawLine(event) {
+            // 선택된 노드의 좌표와 마우스 좌표로 선을 그리기
+            if (this.selectedNode !== null) {
+              this.currentLine = {
+                x1: this.nodes[this.selectedNode].x,
+                y1: this.nodes[this.selectedNode].y,
+                x2: event.clientX,
+                y2: event.clientY,
+              };
+            }
+          },
+          handleMouseDown(event) {
+            if (event.button === 2) {
+              // 우클릭 (button 2)
+              event.preventDefault(); // 기본 우클릭 메뉴 방지
+              this.selectedNode = null; // 선 그리기 취소
+              this.currentLine = null;
+              window.removeEventListener('mousemove', this.drawLine); // 마우스 이동 이벤트 리스너 제거
+            }
+          },
+        },
+      });
+      app.mount('#app');
+    </script>
+  </body>
+</html>

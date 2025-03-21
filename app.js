@@ -52,11 +52,5 @@ const app = Vue.createApp({
       }
     },
   },
-  mounted() {
-    window.addEventListener("click", this.handleClick);
-  },
-  beforeUnmount() {
-    window.removeEventListener("click", this.handleClick);
-  }
 });
 app.mount("#app");
