@@ -30,7 +30,7 @@ class Node {
   }
 }
 
-export class Queue {
+class Queue {
   constructor() {
     this.head = null;
     this.tail = null;
@@ -90,3 +90,5 @@ export class Queue {
     return result.join(' -> ');
   }
 }
+
+module.exports = Queue;
