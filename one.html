@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Graph Editor</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <style>
       body {
         margin: 0;
@@ -99,7 +101,7 @@
               let ay = alreadyNode.y;
 
               if (Math.sqrt((x - ax) * (x - ax) + (y - ay) * (y - ay)) <= 80) {
-                alert('너무 가까움');
+                alert('Too close'); // 자동 사라지게 변경 예정
                 return;
               }
             }
@@ -108,6 +110,7 @@
           },
           addNode(x, y) {
             this.nodes.push({ x, y }); // 새로운 노드 추가
+            console.log(this.nodes);
           },
           connectNode(index) {
             if (this.selectedNode === null) {

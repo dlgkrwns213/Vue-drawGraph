@@ -16,6 +16,7 @@ const app = Vue.createApp({
     },
     addNode(x, y) {
       this.nodes.push({ x, y }); // 새로운 노드 추가
+      console.log(nodes);
     },
     connectNode(index) {
       if (this.selectedNode === null) {
