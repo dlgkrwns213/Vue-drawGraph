@@ -1,4 +1,4 @@
-const Queue = require("./queue");
+import Queue from "./queue.mjs";
 
 
 function makeGraph(n, lineGraph) {
@@ -55,29 +55,4 @@ function bfs(nodes, lineGraph, startIdx=1) {
   return {levels, orderIdx};
 }
 
-const nodes = [
-  { x: 242, y: 223 },
-  { x: 205, y: 477 },
-  { x: 484, y: 469 },
-  { x: 458, y: 266 },
-  { x: 345, y: 585 },
-  { x: 655, y: 385 },
-  { x: 671, y: 164 }
-];
-
-const lineGraph = [
-  [1, 2],
-  [2, 3],
-  [3, 4],
-  [3, 6],
-  [3, 5],
-  [1, 4],
-  [2, 5]
-];
-
-
-let tt = bfs(nodes, lineGraph);
-
-console.log(tt)
-console.log(tt.levels);
-console.log(tt.orderIdx);
+export { bfs };

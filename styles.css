@@ -1,17 +1,32 @@
-body { 
-  margin: 0; 
-  overflow: hidden; 
-}
-
-#app { 
-  width: 100vw; 
-  height: 100vh; 
-  position: relative; 
-  background: rgb(44, 44, 44); 
+body {
+  margin: 0;
+  overflow: hidden;
 }
 
 .header {
   height: 100px;
+  background: #333;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  font-size: 24px;
+}
+
+.button {
+  width: 150px;
+  height: 80%;
+  border-radius: 10%;
+  background-color: rgb(41, 41, 41);
+  margin: 0 20px;
+  color: rgb(215, 215, 215);
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: rgb(44, 44, 44);
 }
 
 .node {
