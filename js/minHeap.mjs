@@ -11,6 +11,15 @@ class MinHeap {
       [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]];
   }
 
+  // 배열을 비교하는 함수 (첫 번째 요소부터 비교)
+  compareArrays(arr1, arr2) {
+      for (let i = 0; i < arr1.length && i < arr2.length; i++) {
+          if (arr1[i] < arr2[i]) return -1;
+          if (arr1[i] > arr2[i]) return 1;
+      }
+      return 0; // 같으면 0 반환
+  }
+
   push(value) {
       this.heap.push(value);
       this.heapifyUp();
@@ -18,7 +27,7 @@ class MinHeap {
 
   heapifyUp() {
       let index = this.heap.length - 1;
-      while (index > 0 && this.heap[index] < this.heap[this.getParentIndex(index)]) {
+      while (index > 0 && this.compareArrays(this.heap[index], this.heap[this.getParentIndex(index)]) < 0) {
           this.swap(index, this.getParentIndex(index));
           index = this.getParentIndex(index);
       }
@@ -40,11 +49,14 @@ class MinHeap {
           let smallerChildIndex = this.getLeftChildIndex(index);
           let rightChildIndex = this.getRightChildIndex(index);
 
-          if (rightChildIndex < this.heap.length && this.heap[rightChildIndex] < this.heap[smallerChildIndex]) {
+          // 오른쪽 자식이 더 작으면
+          if (rightChildIndex < this.heap.length && this.compareArrays(this.heap[rightChildIndex], this.heap[smallerChildIndex]) < 0) {
               smallerChildIndex = rightChildIndex;
           }
 
-          if (this.heap[index] < this.heap[smallerChildIndex]) break;
+          // 부모가 더 작으면 종료
+          if (this.compareArrays(this.heap[index], this.heap[smallerChildIndex]) <= 0) break;
+
           this.swap(index, smallerChildIndex);
           index = smallerChildIndex;
       }

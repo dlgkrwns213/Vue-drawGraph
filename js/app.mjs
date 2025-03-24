@@ -1,4 +1,4 @@
-import { bfs, dfs } from './functions.mjs'; // 경로는 실제 위치에 맞게 수정
+import { bfs, dfs, dijkstra } from './functions.mjs'; // 경로는 실제 위치에 맞게 수정
 
 const app = Vue.createApp({
   data() {
@@ -60,7 +60,7 @@ const app = Vue.createApp({
             y2: this.nodes[index].y,
           });
           console.log(this.lines[this.lines.length-1]);
-          this.graphConnections.push([this.selectedNode + 1, index + 1]);
+          this.graphConnections.push([this.selectedNode + 1, index + 1, 1]);
           console.log(this.graphConnections[this.graphConnections.length-1]);
 
         }
@@ -90,10 +90,12 @@ const app = Vue.createApp({
 
     // bfs 함수 버튼
     async clickBFSButton(level) {
+      if (this.startIdx === -1)
+        return;
+
       this.isProcessing = true;
 
       const { levels, orderIdx } = bfs(this.nodes, this.graphConnections, this.startIdx);
-
       if (level)
         await this.colorButton(levels, true);
       else
@@ -104,11 +106,25 @@ const app = Vue.createApp({
 
     // dfs 함수 버튼
     async clickDFSButton() {
+      if (this.startIdx === -1)
+        return;
+
       this.isProcessing = true;
 
       const dfsNodeOrder = dfs(this.nodes, this.graphConnections, this.startIdx);
-      
-      this.colorButton(dfsNodeOrder);
+      await this.colorButton(dfsNodeOrder);
+
+      this.isProcessing = false;
+    },
+
+    async clickDijkstraButton() {
+      if (this.startIdx === -1)
+        return;
+
+      this.isProcessing = true;
+
+      const dijkstraNodeOrder = dijkstra(this.nodes, this.graphConnections, this.st);
+      await this.colorButton(dijkstraNodeOrder);
 
       this.isProcessing = false;
     },
