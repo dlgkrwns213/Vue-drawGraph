@@ -12,6 +12,7 @@ const app = Vue.createApp({
       startIdx: -1,
       nodeSelecting: [],
       nodeSelected: [],
+      isProcessing: false,
     };
   },
   methods: {
@@ -89,19 +90,27 @@ const app = Vue.createApp({
 
     // bfs 함수 버튼
     async clickBFSButton(level) {
+      this.isProcessing = true;
+
       const { levels, orderIdx } = bfs(this.nodes, this.graphConnections, this.startIdx);
 
       if (level)
         await this.colorButton(levels, true);
       else
         await this.colorButton(orderIdx);
+
+      this.isProcessing = false;
     },
 
     // dfs 함수 버튼
     async clickDFSButton() {
+      this.isProcessing = true;
+
       const dfsNodeOrder = dfs(this.nodes, this.graphConnections, this.startIdx);
       
       this.colorButton(dfsNodeOrder);
+
+      this.isProcessing = false;
     },
 
     delay(ms) {
