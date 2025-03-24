@@ -60,4 +60,28 @@ function bfs(nodes, lineGraph, startIdx=1) {
   return {levels, orderIdx};
 }
 
-export { bfs };
+function dfs(nodes, lineGraph, startIdx=1) {
+  let n = nodes.length;
+  const graph = makeGraph(lineGraph);
+
+  let dfsNodeOrder = [];
+  let visited = Array(n+1).fill(false);
+
+  dfs_recur(startIdx, dfsNodeOrder, visited, graph);
+
+  return dfsNodeOrder;
+}
+
+function dfs_recur(nowIdx, dfsNodeOrder, visited, graph) {
+  dfsNodeOrder.push(nowIdx);
+
+  for (let nxtIdx of graph[nowIdx]) {
+    if (!visited[nxtIdx]) {
+      visited[nxtIdx] = true;
+      dfs_recur(nxtIdx, dfsNodeOrder, visited, graph);
+    }
+  }
+  
+}
+
+export { bfs, dfs };
