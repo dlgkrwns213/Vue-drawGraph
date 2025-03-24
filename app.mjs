@@ -1,4 +1,4 @@
-import { bfs } from './functions.mjs'; // 경로는 실제 위치에 맞게 수정
+import { bfs, dfs } from './functions.mjs'; // 경로는 실제 위치에 맞게 수정
 
 const app = Vue.createApp({
   data() {
@@ -79,14 +79,19 @@ const app = Vue.createApp({
 
     // bfs 함수 버튼
     async clickBFSButton(level) {
-      console.log('?')
       const { levels, orderIdx } = bfs(this.nodes, this.graphConnections, this.startIdx);
-      console.log(levels);
-      console.log(orderIdx);
+
       if (level)
         await this.colorButton(levels, true);
       else
         await this.colorButton(orderIdx);
+    },
+
+    // dfs 함수 버튼
+    async clickDFSButton() {
+      const dfsNodeOrder = dfs(this.nodes, this.graphConnections, this.startIdx);
+      
+      this.colorButton(dfsNodeOrder);
     },
 
     delay(ms) {

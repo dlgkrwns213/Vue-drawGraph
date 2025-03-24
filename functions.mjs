@@ -62,10 +62,11 @@ function bfs(nodes, lineGraph, startIdx=1) {
 
 function dfs(nodes, lineGraph, startIdx=1) {
   let n = nodes.length;
-  const graph = makeGraph(lineGraph);
+  const graph = makeGraph(n, lineGraph);
 
   let dfsNodeOrder = [];
   let visited = Array(n+1).fill(false);
+  visited[startIdx] = true;
 
   dfs_recur(startIdx, dfsNodeOrder, visited, graph);
 
