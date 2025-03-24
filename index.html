@@ -56,8 +56,8 @@
         @click.stop="connectNode(index, $event)"
         @contextmenu.prevent="handleMouseDown($event)"
         :class="{
-          'nodeSelecting': nodeSelecting.includes(index+1),
-          'nodeSelected': nodeSelected.includes(index+1)
+          'node-selecting': nodeSelecting.includes(index+1),
+          'node-selected': nodeSelected.includes(index+1)
         }"
       >
         {{ index + 1 }}

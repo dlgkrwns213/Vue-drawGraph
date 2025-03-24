@@ -46,10 +46,10 @@ body {
   color: black;
 }
 
-.nodeSelected {
+.node-selected {
   background-color: gray;
 }
 
-.nodeSelecting {
+.node-selecting {
   background-color: yellow;
 }
