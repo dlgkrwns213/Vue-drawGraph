@@ -82,6 +82,19 @@
         }"
       >
         {{ index + 1 }}
+
+        <div
+          v-if="isNaN(nodeOrders[index])"
+          :style="{
+            position: 'absolute', 
+            left: node.x - 20 + 'px', 
+            top: node.y - 20 + 'px',
+            color: 'white',
+            fontSize: '12px' 
+          }"
+        >
+          {{ nodeOrders[index] }}
+        </div>
       </div>
     </div>
 

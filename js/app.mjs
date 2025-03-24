@@ -14,6 +14,7 @@ const app = Vue.createApp({
       nodeSelecting: [],
       nodeSelected: [],
       isProcessing: false,
+      nodeOrders: [],
     };
   },
   methods: {
@@ -32,8 +33,8 @@ const app = Vue.createApp({
           return;
         }
       }
-      console.log(x, y);
       this.addNode(x, y);
+      this.nodeOrders.push(NaN);
 
       if (this.startIdx === -1) {
         this.nodeSelecting = [1];
@@ -152,23 +153,30 @@ const app = Vue.createApp({
     async colorButton(Arrays, isMulti = false) {
       console.log(Arrays)
       if (isMulti) {
-        for (let now of Arrays) {
+        for (let idx = 0; idx < Arrays.length; idx++) {
+          let now = Arrays[idx]
           console.log(now);
           this.nodeSelecting = [...now];
           this.nodeSelected.push([...now]);
+
+          for (let node of now)
+            this.nodeOrders[node] = idx+1;
           
           await this.delay(500);
         }
       } else {
         for (let idx = 0; idx < Arrays.length; idx++) {
           // 현재 노드를 nodeSelecting에 설정
+
           this.nodeSelecting = [Arrays[idx]]; 
           this.nodeSelected.push(Arrays[idx]); // 해당 인덱스를 nodeSelected에 추가
-    
+          this.nodeOrders[Arrays[idx]] = idx+1;
           // 0.5초(500ms) 대기
           await this.delay(500);
         }
       }
+
+      console.log(this.nodeOrders);
         
       // nodeSelecting 초기화 후 1초 후 nodesSelecting과 nodeSelected 다시 초기화
       this.nodeSelecting = [];
