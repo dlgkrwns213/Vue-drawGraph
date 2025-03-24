@@ -112,12 +112,10 @@ function dijkstra(nodes, lineGraph, startIdx=1) {
     let dist = now[0];
     let nowIdx = now[1];
 
-    nodeOrder.push(nowIdx);
-
     if (distances[nowIdx] < dist)
       continue;
+    nodeOrder.push(nowIdx);
 
-    console.log(graph[nowIdx])
     for (let nw of graph[nowIdx]) {
       let nxtIdx = nw[0];
       let nxtDist = dist + nw[1];
