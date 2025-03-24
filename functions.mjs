@@ -4,13 +4,16 @@ import Queue from "./queue.mjs";
 function makeGraph(n, lineGraph) {
   const graph = Array(n+1).fill().map(() => []);
 
-  for (line of lineGraph) {
+  for (let line of lineGraph) {
     let u = line[0];
     let v = line[1];
 
     graph[u].push(v);
     graph[v].push(u);
   }
+
+  console.log(graph)
+  graph.forEach(line => line.sort((a, b) => a-b));
 
   return graph;
 }
@@ -44,13 +47,15 @@ function bfs(nodes, lineGraph, startIdx=1) {
     sameLevel.push(nowIdx);
     orderIdx.push(nowIdx);
     
-    for (nxtIdx of graph[nowIdx]) {
+    for (let nxtIdx of graph[nowIdx]) {
       if (!visited[nxtIdx]) {
         visited[nxtIdx] = true;
         q.push([nxtIdx, nowLevel+1]);
       }
     }
   }
+
+  levels.push([...sameLevel]);
 
   return {levels, orderIdx};
 }
