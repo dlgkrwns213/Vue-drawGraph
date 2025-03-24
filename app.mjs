@@ -78,13 +78,15 @@ const app = Vue.createApp({
     },
 
     // bfs 함수 버튼
-    clickBFSButton() {
+    async clickBFSButton(level) {
       console.log('?')
       const { levels, orderIdx } = bfs(this.nodes, this.graphConnections, this.startIdx);
       console.log(levels);
       console.log(orderIdx);
-      // this.colorButton(orderIdx);
-      this.colorButton(levels, true);
+      if (level)
+        await this.colorButton(levels, true);
+      else
+        await this.colorButton(orderIdx);
     },
 
     delay(ms) {
