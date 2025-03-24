@@ -53,7 +53,7 @@
         :key="index"
         class="node"
         :style="{ left: node.x + 'px', top: node.y + 'px' }"
-        @click.stop="connectNode(index)"
+        @click.stop="connectNode(index, $event)"
         @contextmenu.prevent="handleMouseDown($event)"
         :class="{
           'nodeSelecting': nodeSelecting.includes(index+1),

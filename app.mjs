@@ -9,7 +9,7 @@ const app = Vue.createApp({
       currentLine: null,
       graphConnections: [],
       headerHeight: 0, // 헤더 높이 100px로 설정
-      startIdx: 1,
+      startIdx: -1,
       nodeSelecting: [],
       nodeSelected: [],
     };
@@ -32,11 +32,21 @@ const app = Vue.createApp({
       }
       console.log(x, y);
       this.addNode(x, y);
+
+      if (this.startIdx === -1) {
+        this.nodeSelecting = [1];
+        this.startIdx = 1;
+      }
     },
     addNode(x, y) {
       this.nodes.push({ x, y });
     },
-    connectNode(index) {
+    connectNode(index, event) {
+      if (event.ctrlKey) {
+        this.startIdx = index+1;
+        this.nodeSelecting = [this.startIdx];
+        return;
+      }
       if (this.selectedNode === null) {
         this.selectedNode = index;
         window.addEventListener('mousemove', this.drawLine);
