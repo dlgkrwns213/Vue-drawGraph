@@ -76,19 +76,29 @@ const app = Vue.createApp({
         window.removeEventListener('mousemove', this.drawLine);
       }
     },
+
+    // bfs 함수 버튼
     clickBFSButton() {
       console.log('?')
       const { levels, orderIdx } = bfs(this.nodes, this.graphConnections, this.startIdx);
       console.log(levels);
       console.log(orderIdx);
-      console.log(this.nodes)
-      this.colorButton(orderIdx);
+      // this.colorButton(orderIdx);
+      this.colorButton(levels, true);
     },
+
+    delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    },
+
     async colorButton(Arrays, isMulti = false) {
       if (isMulti) {
-        let bef = [];
-        for (now of Arrays) {
-          // 나중에 할 것
+        for (let now of Arrays) {
+          console.log(now);
+          this.nodeSelecting = [...now];
+          this.nodeSelected.push([...now]);
+          
+          await this.delay(500);
         }
       } else {
         for (let idx = 0; idx < Arrays.length; idx++) {
@@ -99,12 +109,12 @@ const app = Vue.createApp({
           // 0.5초(500ms) 대기
           await this.delay(500);
         }
-        
-        // 1초 후 nodeSelected와 nodeSelecting 초기화
-        await this.delay(1000);
-        this.nodeSelected = [];
-        this.nodeSelecting = [];
       }
+        
+      // 1초 후 nodeSelected와 nodeSelecting 초기화
+      await this.delay(1000);
+      this.nodeSelected = [];
+      this.nodeSelecting = [];
     },
   },
 });
