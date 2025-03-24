@@ -8,6 +8,7 @@ const app = Vue.createApp({
       selectedNode: null,
       currentLine: null,
       graphConnections: [],
+      inputFields: [], 
       headerHeight: 0, // 헤더 높이 100px로 설정
       startIdx: -1,
       nodeSelecting: [],
@@ -59,15 +60,30 @@ const app = Vue.createApp({
             x2: this.nodes[index].x,
             y2: this.nodes[index].y,
           });
-          console.log(this.lines[this.lines.length-1]);
-          this.graphConnections.push([this.selectedNode + 1, index + 1, 1]);
-          console.log(this.graphConnections[this.graphConnections.length-1]);
 
+          let lastLine = this.lines[this.lines.length - 1];
+          let xMid = (lastLine.x1 + lastLine.x2) / 2;
+          let yMid = (lastLine.y1 + lastLine.y2) / 2;
+          this.inputFields.push({x: xMid, y: yMid, value: 1})
+
+          let mn = Math.min(this.selectedNode, index) + 1;
+          let mx = Math.max(this.selectedNode, index) + 1;
+          this.graphConnections.push([mn, mx, 1]);
         }
         this.selectedNode = null;
         window.removeEventListener('mousemove', this.drawLine);
         this.currentLine = null;
       }
+    },
+    updateGraphConnection(index) {
+      // inputFields에서 값을 가져와서 graphConnections 업데이트
+      const inputValue = this.inputFields[index].value;
+  
+      // graphConnections에서 해당 인덱스의 두 번째 값을 업데이트
+      this.graphConnections[index][2] = inputValue;
+  
+      // 업데이트 후 콘솔로 확인
+      console.log("Updated graphConnections:", this.graphConnections);
     },
     drawLine(event) {
       if (this.selectedNode !== null) {
@@ -134,6 +150,7 @@ const app = Vue.createApp({
     },
 
     async colorButton(Arrays, isMulti = false) {
+      console.log(Arrays)
       if (isMulti) {
         for (let now of Arrays) {
           console.log(now);
@@ -161,6 +178,19 @@ const app = Vue.createApp({
 
     },
   },
+  watch: {
+    inputFields: {
+      handler(newInputFields) {
+        // inputFields의 값이 변경될 때마다 graphConnections를 업데이트
+        newInputFields.forEach((inputField, index) => {
+          // 각 inputField의 value가 변경되면 해당하는 graphConnections의 두 번째 값을 업데이트
+          const line = this.graphConnections[index];
+          line[2] = inputField.value;
+        });
+      },
+      deep: true, // 배열 내부 객체의 변화를 추적하려면 deep 옵션을 true로 설정
+    },
+  }
 });
 
 app.mount('#app');

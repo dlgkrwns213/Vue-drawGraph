@@ -51,6 +51,24 @@
           stroke-dasharray="5,5"
         />
       </svg>
+
+      <div
+        v-for="(node, index) in inputFields"
+        :key="index"
+        :style="{ 
+        left: (node.x-10) + 'px', 
+        top: node.y + 'px', 
+        position: 'absolute' 
+      }"
+        class="input-field"
+      >
+        <input
+          v-model="node.value"
+          placeholder="Enter Value"
+          @keyup.enter="updateGraphConnection(index, $event)"
+        />
+      </div>
+
       <div
         v-for="(node, index) in nodes"
         :key="index"
