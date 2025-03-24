@@ -137,10 +137,12 @@ const app = Vue.createApp({
         }
       }
         
-      // 1초 후 nodeSelected와 nodeSelecting 초기화
-      await this.delay(1000);
-      this.nodeSelected = [];
+      // nodeSelecting 초기화 후 1초 후 nodesSelecting과 nodeSelected 다시 초기화
       this.nodeSelecting = [];
+      await this.delay(1000);
+      this.nodeSelecting = [this.startIdx]
+      this.nodeSelected = [];
+
     },
   },
 });
