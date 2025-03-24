@@ -10,6 +10,8 @@ const app = Vue.createApp({
       graphConnections: [],
       headerHeight: 0, // 헤더 높이 100px로 설정
       startIdx: 1,
+      nodeSelecting: [],
+      nodeSelected: [],
     };
   },
   methods: {
@@ -78,7 +80,31 @@ const app = Vue.createApp({
       console.log('?')
       const { levels, orderIdx } = bfs(this.nodes, this.graphConnections, this.startIdx);
       console.log(levels);
-      console.log(orderIdx); 
+      console.log(orderIdx);
+      console.log(this.nodes)
+      this.colorButton(orderIdx);
+    },
+    async colorButton(Arrays, isMulti = false) {
+      if (isMulti) {
+        let bef = [];
+        for (now of Arrays) {
+          // 나중에 할 것
+        }
+      } else {
+        for (let idx = 0; idx < Arrays.length; idx++) {
+          // 현재 노드를 nodeSelecting에 설정
+          this.nodeSelecting = [Arrays[idx]]; 
+          this.nodeSelected.push(Arrays[idx]); // 해당 인덱스를 nodeSelected에 추가
+    
+          // 0.5초(500ms) 대기
+          await this.delay(500);
+        }
+        
+        // 1초 후 nodeSelected와 nodeSelecting 초기화
+        await this.delay(1000);
+        this.nodeSelected = [];
+        this.nodeSelecting = [];
+      }
     },
   },
 });

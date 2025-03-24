@@ -45,3 +45,11 @@ body {
   font-weight: bold;
   color: black;
 }
+
+.nodeSelected {
+  background-color: gray;
+}
+
+.nodeSelecting {
+  background-color: yellow;
+}
