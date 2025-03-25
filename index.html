@@ -59,7 +59,7 @@
         left: (node.x-10) + 'px', 
         top: node.y + 'px', 
         position: 'absolute' 
-      }"
+        }"
         class="input-field"
       >
         <input
@@ -84,13 +84,13 @@
         {{ index + 1 }}
 
         <div
-          v-if="isNaN(nodeOrders[index])"
+          v-if="!isNaN(nodeOrders[index])"
           :style="{
-            position: 'absolute', 
-            left: node.x - 20 + 'px', 
-            top: node.y - 20 + 'px',
-            color: 'white',
-            fontSize: '12px' 
+            position: 'relative', 
+            left: 20 + 'px', 
+            top: 20 + 'px',
+            color: 'red',
+            fontSize: '10px'
           }"
         >
           {{ nodeOrders[index] }}

@@ -111,6 +111,7 @@ const app = Vue.createApp({
         return;
 
       this.isProcessing = true;
+      this.nodeOrders.fill(NaN);
 
       const { levels, orderIdx } = bfs(this.nodes, this.graphConnections, this.startIdx);
       if (level)
@@ -127,6 +128,7 @@ const app = Vue.createApp({
         return;
 
       this.isProcessing = true;
+      this.nodeOrders.fill(NaN);
 
       const dfsNodeOrder = dfs(this.nodes, this.graphConnections, this.startIdx);
       await this.colorButton(dfsNodeOrder);
@@ -139,6 +141,7 @@ const app = Vue.createApp({
         return;
 
       this.isProcessing = true;
+      this.nodeOrders.fill(NaN);
 
       const dijkstraNodeOrder = dijkstra(this.nodes, this.graphConnections, this.st);
       await this.colorButton(dijkstraNodeOrder);
@@ -160,7 +163,7 @@ const app = Vue.createApp({
           this.nodeSelected.push([...now]);
 
           for (let node of now)
-            this.nodeOrders[node] = idx+1;
+            this.nodeOrders[node-1] = idx+1;
           
           await this.delay(500);
         }
@@ -170,7 +173,7 @@ const app = Vue.createApp({
 
           this.nodeSelecting = [Arrays[idx]]; 
           this.nodeSelected.push(Arrays[idx]); // 해당 인덱스를 nodeSelected에 추가
-          this.nodeOrders[Arrays[idx]] = idx+1;
+          this.nodeOrders[Arrays[idx]-1] = idx+1;
           // 0.5초(500ms) 대기
           await this.delay(500);
         }
