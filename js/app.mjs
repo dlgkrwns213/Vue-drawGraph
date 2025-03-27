@@ -178,7 +178,7 @@ const app = Vue.createApp({
       this.isProcessing = true;
       this.nodeOrders.fill(NaN);
 
-      const dijkstraNodeOrder = dijkstra(this.nodes, this.graphConnections, this.st);
+      const dijkstraNodeOrder = dijkstra(this.nodes, this.graphConnections, this.startIdx);
       await this.colorButton(dijkstraNodeOrder);
 
       this.isProcessing = false;
