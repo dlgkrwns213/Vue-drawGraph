@@ -8,7 +8,9 @@ const app = Vue.createApp({
       selectedNode: null,
       currentLine: null,
       graphConnections: [],
-      inputFields: [], 
+      inputFields: [],
+      userDone: [],  // user 가 한 행동 (행동 취소 지원) 'node' or 'line'
+ 
       headerHeight: 0, // 헤더 높이 100px로 설정
       startIdx: -1,
       nodeSelecting: [],
@@ -43,6 +45,7 @@ const app = Vue.createApp({
     },
     addNode(x, y) {
       this.nodes.push({ x, y });
+      this.userDone.push('node');
     },
     connectNode(index, event) {
       if (event.ctrlKey) {
@@ -70,6 +73,7 @@ const app = Vue.createApp({
           let mn = Math.min(this.selectedNode, index) + 1;
           let mx = Math.max(this.selectedNode, index) + 1;
           this.graphConnections.push([mn, mx, 1]);
+          this.userDone.push('line');
         }
         this.selectedNode = null;
         window.removeEventListener('mousemove', this.drawLine);
@@ -102,6 +106,26 @@ const app = Vue.createApp({
         this.selectedNode = null;
         this.currentLine = null;
         window.removeEventListener('mousemove', this.drawLine);
+      }
+    },
+    cancelUserDone() {
+      const done = this.userDone.pop();
+      if (done === undefined) {
+        alert('처음 상태입니다.')
+        return;
+      }
+
+      if (done === 'node') {
+        this.nodes.pop();
+        this.nodeOrders.pop();
+        if (this.nodeOrders.length === 0) {
+          this.nodeSelecting = [];
+          this.startIdx = -1;
+        }
+      } else {
+        this.lines.pop();
+        this.inputFields.pop();
+        this.graphConnections.pop();
       }
     },
 
