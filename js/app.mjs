@@ -129,6 +129,17 @@ const app = Vue.createApp({
       }
     },
 
+    cancelAllUserDone() {
+      this.userDone = [];
+      this.nodes = [];
+      this.nodeOrders = [];
+      this.nodeSelecting = [];
+      this.startIdx = -1;
+      this.lines = [];
+      this.inputFields = [];
+      this.graphConnections = [];
+    },
+
     // bfs 함수 버튼
     async clickBFSButton(level) {
       if (this.startIdx === -1)

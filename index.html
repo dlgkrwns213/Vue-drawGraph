@@ -28,7 +28,15 @@
       </div>
 
       <div class="back-button" @click.stop="cancelUserDone">
-        <i class="fa-solid fa-backward" style="color: white"></i>
+        <i class="fa-solid fa-backward-step" style="color: white"></i>
+      </div>
+
+      <div
+        class="back-button"
+        style="right: 10px"
+        @click.stop="cancelAllUserDone"
+      >
+        <i class="fa-solid fa-backward-fast" style="color: white"></i>
       </div>
 
       <svg
