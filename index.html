@@ -97,18 +97,9 @@
           'node-selected': nodeSelected.includes(index+1)
         }"
       >
-        {{ index + 1 }}
+        <div class="node-index">{{ index + 1 }}</div>
 
-        <div
-          v-if="!isNaN(nodeOrders[index])"
-          :style="{
-            position: 'relative', 
-            left: 20 + 'px', 
-            top: 20 + 'px',
-            color: 'red',
-            fontSize: '10px'
-          }"
-        >
+        <div v-if="!isNaN(nodeOrders[index])" class="node-order">
           {{ nodeOrders[index] }}
         </div>
       </div>
