@@ -75,6 +75,11 @@ const app = Vue.createApp({
           this.graphConnections.push([mn, mx, 1]);
           this.userDone.push('line');
         }
+        else {
+          console.log(index)
+          this.startIdx = index+1;
+          this.nodeSelecting = [this.startIdx];
+        }
         this.selectedNode = null;
         window.removeEventListener('mousemove', this.drawLine);
         this.currentLine = null;

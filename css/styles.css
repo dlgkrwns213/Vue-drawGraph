@@ -105,6 +105,8 @@ body {
   font-weight: bold;
   color: black;
   padding: 2px;
+  user-select: none;
+
 }
 
 /* nodeOrders[index]를 node의 아래쪽에 표시 */
