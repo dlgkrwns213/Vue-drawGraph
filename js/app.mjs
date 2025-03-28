@@ -72,8 +72,19 @@ const app = Vue.createApp({
 
           let mn = Math.min(this.selectedNode, index) + 1;
           let mx = Math.max(this.selectedNode, index) + 1;
-          this.graphConnections.push([mn, mx, 1]);
-          this.userDone.push('line');
+          
+          let isExist = false;
+          for (let line in this.graphConnections) {
+            if (line[0] == mn && line[1] == mx) {
+              isExist = true;
+              break;
+            }
+          }
+          
+          if (!isExist) {
+            this.graphConnections.push([mn, mx, 1]);
+            this.userDone.push('line');
+          }
         }
         else {
           console.log(index)
